@@ -84,3 +84,4 @@ if __name__ == '__main__':
     proc = multiprocessing.Process(target=start_server)
     proc.start()
     initialize()
+
