@@ -80,7 +80,6 @@ def start_server():
     run_simple('0.0.0.0', 7777, app, use_reloader=True, use_debugger=True, use_evalex=True)
 
 
-
 if __name__ == '__main__':
     proc = multiprocessing.Process(target=start_server)
     proc.start()

